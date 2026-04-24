@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Stream" ALTER COLUMN "bThumbnail" DROP NOT NULL,
+ALTER COLUMN "mThumbnail" DROP NOT NULL,
+ALTER COLUMN "sThumbnail" DROP NOT NULL;
