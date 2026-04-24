@@ -11,7 +11,7 @@ import {
 import { toast } from "sonner";
 import NowPlayingSection from "@/components/dashboard/NowPlayingSection";
 import QueueSection from "@/components/dashboard/QueueSection";
-import ShareUrlSection from "@/components/dashboard/ShareUrlSection";
+import ShareRoomDialog from "@/components/dashboard/ShareRoomDialog";
 import UrlSubmissionSection from "@/components/dashboard/UrlSubmissionSection";
 import type {
   CurrentVideo,
@@ -347,6 +347,16 @@ export default function CreatorWorkspace({
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/6 to-transparent" />
 
       <div className="relative mx-auto max-w-7xl space-y-8">
+        {!isCreator && (
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold tracking-tight text-white">Dashboard</h1>
+            <ShareRoomDialog 
+              creatorId={creator.id}
+              shareUrl={shareUrl}
+              onCopyShareUrl={copyShareUrl}
+            />
+          </div>
+        )}
         <section className="grid gap-6 xl:grid-cols-[2fr_1fr]">
           <NowPlayingSection
             creatorDisplayName={creator.displayName}
@@ -375,17 +385,6 @@ export default function CreatorWorkspace({
           onPlayNow={handlePlayNow}
           onDelete={handleDelete}
         />
-
-        {!isCreator && (
-          <ShareUrlSection
-            creator={creator}
-            mode={mode}
-            nowPlaying={nowPlaying}
-            queueLength={queuedStreams.length}
-            totalVotes={totalVotes}
-            onCopyShareUrl={copyShareUrl}
-          />
-        )}
       </div>
     </main>
   );

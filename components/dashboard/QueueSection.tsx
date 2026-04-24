@@ -1,6 +1,7 @@
 "use client";
 
 import { ExternalLink, Loader2, PlayCircle, Trash2, Vote } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import type { DashboardStream } from "@/components/dashboard/types";
 import {
@@ -42,18 +43,23 @@ export default function QueueSection({
         </div>
       </div>
 
-      <div className="mt-8 grid gap-4">
-        {queuedStreams.length > 0 ? (
-          queuedStreams.map((stream, index) => (
-            <article
-              key={`${stream.id}-${index}-${stream.upvotes}`}
-              className={cn(
-                "grid gap-5 rounded-[1.6rem] border border-white/10 bg-slate-950/60 p-4 shadow-[0_16px_48px_rgba(2,6,23,0.32)] animate-in fade-in slide-in-from-bottom-4 duration-500 md:grid-cols-[220px_1fr_auto]",
-                index === 0 && "border-amber-300/30 bg-amber-300/8",
-              )}
-              style={{ animationDelay: `${index * 70}ms` }}
-            >
-              <div className="overflow-hidden rounded-[1.25rem] border border-white/10 bg-slate-900/80">
+      <motion.div layout className="mt-8 grid gap-4">
+        <AnimatePresence mode="popLayout">
+          {queuedStreams.length > 0 ? (
+            queuedStreams.map((stream, index) => (
+              <motion.article
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
+                key={stream.id}
+                className={cn(
+                  "grid gap-5 rounded-[1.6rem] border border-white/10 bg-slate-950/60 p-4 shadow-[0_16px_48px_rgba(2,6,23,0.32)] md:grid-cols-[220px_1fr_auto]",
+                  index === 0 && "border-amber-300/30 bg-amber-300/8",
+                )}
+              >
+                <div className="overflow-hidden rounded-[1.25rem] border border-white/10 bg-slate-900/80">
                 <div className="aspect-video">
                   <img
                     src={getStreamThumbnail(stream)}
@@ -154,10 +160,15 @@ export default function QueueSection({
                   </p>
                 </div>
               </div>
-            </article>
-          ))
-        ) : (
-          <div className="rounded-[1.6rem] border border-dashed border-white/14 bg-slate-950/45 p-10 text-center">
+              </motion.article>
+            ))
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="rounded-[1.6rem] border border-dashed border-white/14 bg-slate-950/45 p-10 text-center"
+            >
             <p className="text-lg font-medium text-white">
               The queue is empty for now.
             </p>
@@ -165,9 +176,10 @@ export default function QueueSection({
               Submit a YouTube URL and it will appear here with the same preview
               treatment used in the player and submission panel.
             </p>
-          </div>
-        )}
-      </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </section>
   );
 }

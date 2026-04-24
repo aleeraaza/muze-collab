@@ -108,10 +108,6 @@ export default function UrlSubmissionSection({
                 <p className="text-sm text-slate-300/70">
                   {preview.channel ?? "YouTube"}
                 </p>
-                <p className="text-sm leading-7 text-slate-300/66">
-                  {preview.description ??
-                    "We will attach the full YouTube details when this is submitted."}
-                </p>
               </div>
             </div>
           ) : (
@@ -133,7 +129,9 @@ export default function UrlSubmissionSection({
           Queue controls
         </p>
         <h2 className="mt-2 text-2xl font-semibold text-white">
-          {isCreatorMode ? "Creator-only playback controls" : "Audience voting only"}
+          {isCreatorMode
+            ? "Creator-only playback controls"
+            : "Audience voting only"}
         </h2>
         <p className="mt-3 text-sm leading-7 text-slate-300/70">
           {isCreatorMode
